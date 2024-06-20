@@ -5,50 +5,60 @@
 function getAllDirectors(moviesArray) {
     let lista = [];
     if (!moviesArray.length) return null;
-    console
-    for (let i = 0; i < moviesArray.length; i++) {
+    return moviesArray.map(movie => movie.director);
+    /*for (let i = 0; i < moviesArray.length; i++) {
         if (typeof moviesArray[i] === "object") {
             //console.log(moviesArray[i].director);
             lista.push(moviesArray[i].director);
         }
     }
-    return lista;
+    return lista;*/
 }
 
 // Iteration 2: Steven Spielberg. The best? - How many drama movies did STEVEN SPIELBERG direct?
 function howManyMovies(moviesArray) {
-    let listaFiltrar = [];
+    if (!moviesArray.length) return 0;
+    return moviesArray.filter(movie => movie.director === 'Steven Spielberg' && movie.genre.includes('Drama')).length;
+   /* let listaFiltrar = [];
     let listaResutado = [];
     let gen = [];
-    if (!moviesArray.length) return 0;
     if (moviesArray === movies) return 4;
     listaFiltrar = moviesArray.slice();//copia a un nuevo array sin vinculos al original
     listaResutado = listaFiltrar.filter((movie) => {
         return movie.director === 'Steven Spielberg' && movie.genre.includes('Drama');
     });
-    return listaResutado.length;
+    return listaResutado.length;*/
 }
 
 // Iteration 3: All scores average - Get the average of all scores with 2 decimals
 function scoresAverage(moviesArray) {
-    let suma = 0;
     if (!moviesArray.length) return 0;
+    let totalScore = moviesArray.reduce((acc, movie) => {
+        return acc + (movie.score || 0);
+    }, 0);
+    let averageScore = totalScore / moviesArray.length;
+    return parseFloat(averageScore.toFixed(2));
+
+    /*let suma = 0;
     for (let i = 0; i < moviesArray.length; i++) {
         if (moviesArray[i].score > 0) {
             suma += moviesArray[i].score;
         }
     }
     suma = suma / moviesArray.length;
-    //console.log(typeof suma);
     suma = parseFloat(suma.toFixed(2));
-    //suma=parseFloat(suma);
-    //console.log(suma, typeof suma);
-    return suma;
+    return suma;*/
 }
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
 function dramaMoviesScore(moviesArray) {
-    let listaFiltrar = [];
+    let dramaMovies = moviesArray.filter(movie => movie.genre.includes('Drama'));
+    if (!dramaMovies.length) return 0;
+    let totalScore = dramaMovies.reduce((acc, movie) => acc + (movie.score || 0), 0);
+    let averageScore = totalScore / dramaMovies.length;
+    return parseFloat(averageScore.toFixed(2));
+
+    /*let listaFiltrar = [];
     let listaResultado = [];
     let suma = 0;
     if (!moviesArray.length) return 0;
@@ -63,8 +73,7 @@ function dramaMoviesScore(moviesArray) {
         }
     }
     suma = (suma / listaResultado.length).toFixed(2);
-    //console.log(suma);
-    return parseFloat(suma);
+    return parseFloat(suma);*/
 }
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
@@ -110,6 +119,16 @@ function orderAlphabetically(moviesArray) {
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes(moviesArray) {
+    return moviesArray.map(movie => {
+        let duration = 0;
+        let timeParts = movie.duration.split(' ');
+        timeParts.forEach(part => {
+            if (part.includes('h')) duration += parseInt(part) * 60;
+            if (part.includes('min')) duration += parseInt(part);
+        });
+        return { ...movie, duration: duration };
+    });
+    /*
     if (!moviesArray.length) return [];
     let resultado = moviesArray.slice();
     let tmp = [];
@@ -138,6 +157,7 @@ function turnHoursToMinutes(moviesArray) {
         return elemento;
     });
     return resultado;
+    */
 }
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
